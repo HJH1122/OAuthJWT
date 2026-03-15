@@ -5,9 +5,11 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.example.oauthjwt.dto.CustomOAuth2User;
 import com.example.oauthjwt.dto.GoogleResponse;
 import com.example.oauthjwt.dto.NaverResponse;
 import com.example.oauthjwt.dto.OAuth2Response;
+import com.example.oauthjwt.dto.UserDTO;
 
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     
@@ -31,7 +33,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return null;
         }
 
-        //추후 작성
+        String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(username);
+        userDTO.setName(oAuth2Response.getName());
+        userDTO.setRole("ROLE_USER");
+
+        return new CustomOAuth2User(userDTO);
+
 
     }
 }
